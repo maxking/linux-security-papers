@@ -529,3 +529,8 @@
 ** Q: Exploit Hardening Made Easy
 
    https://www.usenix.org/legacy/events/sec11/tech/full_papers/Schwartz.pdf
+
+* LICENSE
+
+The content of this repository are licensed under Apache License 2.0. Please see
+the [LICENSE](./LICENSE) for more details.
