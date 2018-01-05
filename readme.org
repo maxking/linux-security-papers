@@ -1,0 +1,531 @@
+#+TITLE: List of security papers related to Linux kernel
+
+
+* IEEE S&P (2009-2016)
+
+** Space Traveling across VM: Automatically Bridging the Semantic Gap in Virtual Machine Introspection via Online Kernel Data Redirection
+
+   This paper presents an alternative methodology for VMI that tries to fix the
+   problem of semantic gap between the operating systems and hypervisor for a
+   more isolation between the OS and monitor. This presents a different
+   mechanism as compared to the tradition system call interposition methods.
+
+   https://csdl.computer.org/csdl/proceedings/sp/2012/4681/00/06234438.pdf
+
+** Smashing the Gadgets: Hindering Return-Oriented Programming Using In-Place Code Randomization
+
+   This paper focuses on fixing the ROP vulnerabilities by trying to strip off
+   gadgets from a binary. It does so by randomizing the instructions locally and
+   thus breaking the chains of instructions that can be potentially used to
+   perform an ROP attack, decreasing the probability of the attack by 90%.
+
+   https://csdl.computer.org/csdl/proceedings/sp/2012/4681/00/06234439.pdf
+
+** Missing the Point(er): On the Effectiveness of Code Pointer Integrity
+
+   This paper presents attacks against a recent technique Code Pointer Integrity
+   (CPI) which defends against memory corruption attacks by focusing on safety
+   of code pointers. They present an attack which bypasses the current state of
+   the art mechanisms within 6secc with 13 observed crashes and within 98 hours
+   with no crashes.
+
+   http://www.ieee-security.org/TC/SP2015/papers-archived/6949a781.pdf
+
+** KCoFI: Complete Control-Flow Integrity for Commodity Operating System Kernels
+
+   Control Flow Integrity is one of the biggest problems in the systems security
+   today. Compromising the control flow means user can perform any action that a
+   Kernel can effectively do by jumping from one point to other in the
+   code. This paper presents a new technique to provide integrity of code flow
+   in OS Kernel, effective preventing the class of attacks called ROP.
+
+   https://csdl.computer.org/csdl/proceedings/sp/2014/4686/00/4686a292.pdf
+
+** Dancing with Giants: Wimpy Kernels for On-demand Isolated I/O
+
+   Small and simple (wimpy) vs Large and Complex (giants) work with each other
+   to provide a security architecture where that provides an on-demand isolated
+   I/O for the applications running on wimpy kernel. The size and complexity of
+   the wimpy kernel is small and done so by relying on a un-trusted general
+   purpose operating system for I/O and moving the I/O subsystem and drivers to
+   the userspace.
+
+   https://csdl.computer.org/csdl/proceedings/sp/2014/4686/00/4686a308.pdf
+
+** Practical Control Flow Integrity & Randomization for Binary Executables
+
+   Yet another CFI technique that claims to provide better performance as
+   compared to the previous CFI techniques. CFI collects all the points of
+   indirect-control transfer in one single place and then limits the indirect
+   control flow transfers only through them. Because the indirect control
+   transfers are only supposed to be from this one single place, the
+   verification process for pointers becomes easier and hence the higher
+   performance. It also claims to be compatible with legacy binaries.
+
+   http://www.ieee-security.org/TC/SP2013/papers/4977a559.pdf
+
+** SoK: Eternal War in Memory
+
+   A must read summary paper about the different types of memory corruption
+   attacks, the paths for different attacks based on the types of bugs exploited
+   through a control flow diagram which explains how these attacks use the
+   existing memory corruption bugs of different types. It also talks in depth
+   about the solutions proposed in the past and comments on their usefulness in
+   modern age.
+  
+  http://dl.acm.org/citation.cfm?id=2498101
+
+
+
+* CCS (2009-2016)
+
+** ASLR-Guard: Stopping Address Space Leakage for Code Reuse Attacks
+
+   This paper aims to solve the traditional problems with ASLR, information
+   disclosure via memory leaks. It aims to either prevent code pointer leaks or
+   render them useless for actually deriving the address of code points by
+   encoding them. It separates code and data, provides a secure storage for code
+   and data, and encodes the code pointers when treated as data. They claim to
+   offer performance overhead of less than 1% for C/C++ programs.
+
+   https://sslab.gtisc.gatech.edu/assets/papers/2015/lu:aslrguard.pdf
+
+** Timely Rerandomization for Mitigating Memory Disclosures
+
+   This is an interesting idea to extend ASLR to prevent the memory corruption
+   attack by using a simple mechanism. Since, outputs are the chief source of
+   address leakage which renders ASLR useless in traditional scenarios, they
+   re-randomize the address space every time the program gives an output. They
+   add some extra information when compiling the binary to locate code-pointers
+   and re-randomize them at run-time.
+
+   http://web.mit.edu/ha22286/www/papers/CCS15_2.pdf
+
+** CCFI: Cryptographically Enforced Control Flow Integrity
+
+   Another control flow integrity protection mechanism that uses MACs to protect
+   the control flow of the applications. The MAC of the pointer depends on the
+   type of Pointer which classification can happen at runtime (with type casts)
+   or at compile time with static analysis of code. A pointer with same type
+   cannot replace another pointer because of the MAC and also another pointer
+   cannot replace a pointer with different types. Theoretically, it supports
+   over 2^80 types of pointers.
+
+   http://dl.acm.org/citation.cfm?id=2813676
+
+** Practical Context-Sensitive CFI
+
+   A lot of CFI techniques exist today in research but the practicality of CFI
+   is still on the big hurdle in their wide-spread adoption. Solutions often
+   have a battle between performance and security guarantees and a comprise on
+   either one of them makes the solution difficult to use in real world. This
+   paper presents a CFI technique that takes into account the context of the
+   control transfer to effectively increase the security guarantees provided by
+   the traditional context-insensitive CFI techniques. It includes static
+   analysis of code, binary instrumentation and relies on commodity hardware
+   feature to enhance the performance.
+
+   http://dl.acm.org/citation.cfm?id=2813673
+
+** Losing Control: On the Effectiveness of Control-Flow Integrity under Stack Attacks
+
+   This is an interesting paper which claims to find shortcomings in the
+   proposed CFI techniques and evaluates their effectiveness against stack-based
+   memory corruption attacks. Their attacks are specially targetted towards
+   stack corruption and bypassing the CFI techniques, both coarse grained and
+   fine grained. They also present a technique against shadow stack implementation.
+
+   https://pdfs.semanticscholar.org/67b0/86caacc543b7d30b2f006f77a315bc9572e0.pdf
+
+** Control Jujutsu: On the Weaknesses of Fine-Grained Control Flow Integrity
+
+   Another paper that exploits the weakness in the fine-grained CFI techniques
+   by mainly focusing on the requirements of the techniques and some common
+   currently available programs. They present proof-of-concept attacks against
+   Apache and Nginx in the presence of a fine gained CFI technique with
+   unlimited tagging and support for a shadow stack. 
+
+   https://people.csail.mit.edu/stelios/papers/jujutsu_ccs15.pdf
+
+** Per-Input Control-Flow Integrity
+
+   This paper aims to solve the problem of generating Control Flow Graph for
+   Specific Inputs instead of generic inputs thus implementing a finer-grained
+   CFI. This technique uses a run-time addition of input data-types allowed to
+   run; to prevent attackers to add random edges to the CFG for input types, it
+   compares it against the all-allowable edges which is also extracted by
+   statically analyzing the source code.
+
+   http://www.cse.psu.edu/~gxt29/paper/picfi.pdf
+
+** A Tale of Two Kernels: Towards Ending Kernel Hardening Wars with Split Kernel
+
+   This is a new and innovative concept that claims to solve the problem of poor
+   performance when using hardened kernels. They compile the kernel with some
+   modifications into not one but two kernel, hardened and normal. The process
+   of choosing between them can happen at runtime or by administrator. The
+   un-trusted processes run on the hardened kernel and the other trusted processes
+   run on the normal kernel thus increasing the overall performance as compared
+   to only hardened kernel. They use binary instrumentation techniques and
+   flexiblity of ELF format to have two copy of each function, hardened and
+   normal. They have some checks to keep the hardened control flow within itself
+   by manipulating the code pointers that point to the normal un-hardened functions.
+
+   http://dl.acm.org/citation.cfm?id=2660331
+
+** Hypervision Across Worlds: Real-time Kernel Protection from the ARM TrustZone Secure World
+
+   This paper presents a technique to provide security in ARM SoC by leveraging
+   the virtualization for isolation of a security monitoring VM and the normal
+   OS VM. Using different ARMv7 and ARMv8 specific features, they isolate the
+   monitoring VM in such a way that it has full access to the address space of
+   the other VM and can hence host security monitors that verify the run-time
+   integrity of the Operating System in the normal VM. To make sure that the VM
+   cannot bypass the protections, they remove all the memory management related
+   instructions in the kernel and monitor the kernel's integrity so that any
+   malicious process cannot add them back by loading a malicious module or
+   anything else.
+
+   http://dl.acm.org/citation.cfm?id=2660350
+
+** You Can Run but You Can’t Read: Preventing Disclosure Exploits in Executable Code
+
+   This paper presents a new technique called as XnR, eXecute but not Read,
+   which allows the running of executable portion of the code but does not allow
+   reading the code as data effective preventing memory disclosure attacks. They
+   claim to have 2.2% and 3.4% overheads for Linux and Windows operating systems
+   even with the absence of any hardware support for XnR.
+
+   http://dl.acm.org/citation.cfm?id=2660378
+
+** DieHarder: Securing the Heap
+
+   A new memory allocator design that prevents the heap corruption attacks. This
+   paper talks about the shortcomings of the existing heap allocators in
+   different operating systems today which enable the attacks on heap. It also
+   talks about all the different types of heap based attacks and their
+   countermeasures.
+
+   TODO: Compare this with freelist randomization technique that is under
+   discussion right now in the Linux kernel.
+   
+   https://people.cs.umass.edu/~emery/pubs/ccs03-novark.pdf
+
+** Countering kernel rootkits with lightweight hook protection
+
+   This paper presents a technique to prevent hook-indirection in Linux kernel
+   by different attacks that redirect the control flow. It assumes that most of
+   the kernel hooks are not dynamic and aren't changed after
+   initialization. Since modern hardware doesn't provide memory protections are
+   byte granularity, but at page granularity, they move the hooks to
+   page-aligned addresses and control their write access using the hardware
+   protection mechanisms. It adds a 6% overhead.
+
+   http://dl.acm.org/citation.cfm?id=1653728
+
+** Secure In-VM Monitoring Using Hardware Virtualization
+
+   This paper presents a secure in-vm monitoring by using the hypervisor to
+   isolate the address space of the monitoring program from the rest of the
+   operating system. This improves the performance of the monitor because there
+   is no need to re-create the semantic information like in out-of-VM
+   solutions.
+   
+   https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/sim-ccs09.pdf
+
+** Return-Oriented Programming without Returns
+
+   https://www.cs.uic.edu/~s/papers/noret_ccs2010/noret_ccs2010.pdf
+
+** Breaking Kernel Address Space Layout Randomization with Intel TSX
+
+   Timing channel attack against Linux KASLR.
+
+   http://dl.acm.org/citation.cfm?id=2978321
+
+** Prefetch Side-Channel Attacks: Bypassing SMAP and Kernel ASLR
+
+   Side channel attacks against SMAP and KASLR.
+
+   https://gruss.cc/files/prefetch.pdf
+
+
+   
+
+* USENIX Security
+
+** Baggy Bounds Checking: An Efficient and Backwards-Compatible Defense against Out-of-Bounds Errors
+
+   https://www.usenix.org/legacy/event/sec09/tech/full_papers/akritidis.pdf
+
+** Cling: A Memory Allocator to Mitigate Dangling Pointers
+
+   This paper presents a new memory allocator  to defend against use-after-free
+   vulnerabilities. It infers the type information about the pointers by
+   inspecting the call stack and prevent type unsafe address space re-use among
+   pointers of different types.
+
+   https://www.usenix.org/legacy/events/sec10/tech/full_papers/Akritidis.pdf
+   
+** kGuard: Lightweight Kernel Protection against Return-to-User Attacks
+   
+   This paper presents kGuard as a defense mechanism against ROP attacks which
+   leverage userspace to inject ROP gadget chains in the Kernel. kGuard is a
+   compiler plugin which adds inline guards in the kernel which prevent ret2usr
+   attacks with low performance and memory overheads than the previous works in
+   this area. The size of the kernel grows by 3.5-5.6% but the impact of that on
+   real-life applications is minimal.
+
+   https://www.usenix.org/conference/usenixsecurity12/technical-sessions/presentation/kemerlis
+
+** Enhanced Operating System Security Through Efficient and Fine-grained Address Space Randomization
+
+   This paper claims to present the first fine-grained ASLR technique for modern
+   operating systems. The acknowledge the fact that the assumptions are
+   different when we talk about Kernels as compared to userspace
+   applications. They claim better performance and security than any proposed
+   technique and present a technique called live randomization.
+
+   https://www.usenix.org/conference/usenixsecurity12/technical-sessions/presentation/giuffrida
+
+** Poking Holes in Information Hiding
+   
+   This papers aims to break the ASLR in an yet another innovative way proving
+   that ASLR is no longer a valid protection mechanism against memory disclosure
+   attacks. They claim there is no need for complicated side-channel, probing of
+   mapped region to determine the address of the known code regions in the
+   address-space. Instead, they continuously allocate large chunks of memory to
+   determine the holes in the address space and use that to break the ASLR.
+
+   https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/oikonomopoulos
+
+** What Cannot Be Read, Cannot Be Leveraged? Revisiting Assumptions of JIT-ROP Defenses
+
+   A recent paper proposed the idea of XnR, eXecute but not Read, to protect
+   against JIT-ROP attacks. This paper analyzes the solution presented in that
+   paper and proves that a successful JIT-ROP attack can still be mounter even
+   in the presence of XnR protection. It then proposes a new mechanism that
+   extends XnR to prevent against JIT-ROP attacks.
+
+   https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/maisuradze
+
+** Trustworthy Whole-System Provenance for the Linux Kernel
+
+   Provenance-aware systems track the data objects as it changes and gets used
+   in a system. This could help in Kernel protection mechanisms like taint
+   tracking. This paper talks about the security of such provenance-aware
+   systems and presents a system that can be securely deployed as a Linux
+   Provenance Modules (LPM), a generic framework for Linux.
+
+   https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/bates
+   
+** Automatic Generation of Data-Oriented Exploits
+
+   Recently, data-only attacks have gained a lot of attention from
+   researchers. As the code-injection and ROP defenses are being actively worked
+   on, there is little work put into protecting data. There are papers that
+   claim the data only attacks are a real threat today. This paper goes a step
+   ahead and creates an automatic framework to create data-only attacks by
+   leveraging known memory vulnerabilities.
+
+   https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/hu
+
+** Control-Flow Bending: On the Effectiveness of Control-Flow Integrity
+
+   This paper finds limitations in modern fine-grained CFI techniques which have
+   claimed in past to provide tight security, albeit at the cost of
+   performance. However, they rename data-only attacks to a new term called
+   Control-Flow Bending and prove that CFI techniques cannot successfully
+   prevent data-only attacks. They also talk about the usefulness of
+   shadow-stacks in prevention of a majority of such attacks.
+
+   https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/carlini
+
+** How the ELF Ruined Christmas
+
+   This paper talks about the security of ELF executable format and explains how
+   the ability to dynamically determine the location of critical functions can
+   may help in bypassing protection mechanisms like ASLR which aim to prevent
+   memory disclosure attacks which in turn help in attacks like ROP.
+
+   https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/di-frederico
+
+** ROP is Still Dangerous: Breaking Modern Defenses
+
+   This paper claims to bypass previously proposed solutions against ROP
+   attacks, specifically kBouncer and ROPecker by proposing techniques to bypass
+   these protections. They present three new attack models that can bypass
+   most of the proposed defenses against ROP, including CFI techniques.
+
+   https://www.usenix.org/conference/usenixsecurity14/technical-sessions/presentation/carlini
+
+** Stitching the Gadgets: On the Ineffectiveness of Coarse-Grained Control-Flow Integrity Protection
+
+   Yet another paper that explores the in-effectiveness of the CFI techniques
+   proposed in the past. They analyze the security of all previously proposed
+   coarse-grained CFI techniques. Also, they present new attack primitives that
+   can effectively bypass all the protection mechanism against ROP by slightly
+   modifying the existing attacks.
+   
+   https://www.usenix.org/conference/usenixsecurity14/technical-sessions/presentation/davi
+
+** Size Does Matter: Why Using Gadget-Chain Length to Prevent Code-Reuse Attacks is Hard
+   
+   Some defenses for ROP actually make assumptions about the length of the
+   gadget chains that are practically usable to deploy a successful attack. This
+   paper means to analyze on that assumption trying to prove that finding out a
+   reasonable threshold for that length is a difficult problem and can often
+   result either in bypass of large false positives if the length is over or
+   under estimated.
+
+   https://www.usenix.org/conference/usenixsecurity14/technical-sessions/presentation/goktas
+
+** Oxymoron: Making Fine-Grained Memory Randomization Practical by Allowing Code Sharing 
+
+   This paper talks about the drawbacks of removing code-sharing by using shared
+   libraries as a preventive measure for ROP attacks. Further, they propose a
+   per-process level memory randomization technique which is safe against
+   JIT-ROP attacks while allowing shared libraries.
+
+   https://www.usenix.org/conference/usenixsecurity14/technical-sessions/presentation/backes
+
+** Dynamic Hooks: Hiding Control Flow Changes within Non-Control Data
+
+   This paper builds upon the existing attacks which modify the control flow of
+   a program by modifying the control-data , which can be easily detected by
+   mechanisms that looks for changes in such hooks. They instead propose a
+   technique which modifies the transient-data and it gets invoked only a
+   run-time bypassing most of the protection techniques proposed against the
+   control-data attacks.
+   
+   https://www.usenix.org/conference/usenixsecurity14/technical-sessions/presentation/vogl
+
+** ret2dir: Rethinking Kernel Isolation
+
+   This is a novel new technique called return-to-direct-mapped memory which is
+   a variant of the return-to-libc or other ROP style attacks. In this paper,
+   they bypass all the hardware enforced protection mechanism liek PXN, SMEP,
+   SMAP introduced in the recent past. They leverage the direct-mapped memory in
+   Linux kernel which maps the entire userspace into the kernel space and uses
+   some techniques to determine the address of the shell code added in the
+   userspace to perform ROP in kernel space.
+
+   https://www.usenix.org/conference/usenixsecurity14/technical-sessions/presentation/kemerlis
+
+** Enforcing Forward-Edge Control-Flow Integrity in GCC & LLVM
+
+   This paper improves the CFI techniques proposed in the past with impractical
+   assumptions and heuristic techniques which can only work in research
+   environments. They present a fine-grained CFI techniques for modern GCC and
+   LLVM compilers and claim to have significant reduction in overheads caused by
+   previous CFI techniques and are thus more practical.
+
+   https://www.usenix.org/conference/usenixsecurity14/technical-sessions/presentation/tice
+
+** Dowsing for Overflows: A Guided Fuzzer to Find Buffer Boundary Violations
+
+   This paper presents a fuzzing mechanism to find buffer overflow
+   vulnerabilities in programs. They utilize static analysis of the source code
+   and taint analysis to determine which parts of the code are likely candidates
+   to host buffer overflow violations. They however focus only the loops which
+   accesses array as the potential points for buffer overflow in the system.
+
+   https://www.usenix.org/conference/usenixsecurity13/technical-sessions/papers/haller
+
+** Control Flow Integrity for COTS Binaries
+
+   This paper presents a new technique to apply CFI to binaries which do not
+   have any debugging information in them, which most of the previous CFI
+   techniques in the past depend on. They claim to be the first one to work on a
+   large shared binary like libc and implement their CFI technique on it.
+
+   https://www.usenix.org/conference/usenixsecurity13/technical-sessions/presentation/Zhang
+
+** Transparent ROP Exploit Mitigation Using Indirect Branch Tracing
+
+   This paper uses indirect branch tracing techniques to prevent ROP attacks in
+   Windows. Based on the observation that ROP attacks have a pattern of jumps
+   and calls in a series, which is not common in programs, they use hardware
+   indirect branch tracking technique to determine if the code running is a
+   malicious ROP attack.
+
+   https://www.usenix.org/conference/usenixsecurity13/technical-sessions/paper/pappas
+
+** Seeing Through The Same Lens: Introspecting Guest Address Space At Native Speed
+
+   This is an interesting paper which aims to solve the problem of VMI by
+   allowing memory access at native speeds. VMI techniques are usually slow
+   because they tend to do memory translations in software as opposed to the
+   VMs which actually use the MMU for translation. Allowing guest memory access
+   at native speeds means the VMI techniques can perform much better now.
+
+   https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/zhao
+
+** Oscar: A Practical Page-Permissions-Based Scheme for Thwarting Dangling Pointers
+
+   This paper argues for the old technique to prevent dangling pointers by
+   placing them on page boundaries and managing their permissions. They claim
+   that recent techniques with canaries and guard pages are less efficient and
+   secure when compares to the old techniques. Their mechanism doesn't require
+   the source code the programs, and also hammers down previous known
+   limitations of this scheme.
+
+   https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/dang
+
+** Towards Efficient Heap Overflow Discovery
+
+   This paper presents a new mechanism to trace Heap overflow vulnerabilities
+   in binary programs by analyzing heap allocation and heap access operations
+   and performing in-depth offline analysis on the program flow graphs.
+
+   https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/jia
+
+** Efficient Protection of Path-Sensitive Control Security
+
+   This paper presents yet another variation of the CFI techniques that uses
+   runtime path-sensitive analysis to determine legitimate control transfer
+   targets. They have implemented a execution environment that enforces runtime
+   path-sensitive CFI by using hardware monitoring and runtime point-to analysis.
+
+   https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/ding
+   
+
+* Interesting but unrelated
+
+** Thwarting Memory Disclosure with Efficient Hypervisor-enforced Intra-domain Isolation
+
+   http://ipads.se.sjtu.edu.cn/zh/publications/LiuCCS15.pdf
+
+** Security by Any Other Name: On the Effectiveness of Provider Based Email Security
+   http://dl.acm.org/citation.cfm?id=2813607
+
+** DeTrust: Defeating Hardware Trust Verification with Stealthy Implicitly-Triggered Hardware Trojans
+
+   http://dl.acm.org/citation.cfm?id=2660289
+
+** The Last Mile: An Empirical Study of Timing Channels on seL4
+   http://dl.acm.org/citation.cfm?id=2660294
+
+** ASIST: architectural support for instruction set randomization
+
+   http://dl.acm.org/citation.cfm?id=2516670
+
+** PIkit: A New Kernel-Independent Processor-Interconnect Rootkit
+
+   A kernel rootkit that hides itself without attacking the kernel by using the
+   common flaws in modern hardware often used in the public cloud data centers.
+
+   https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/song
+** Tracking Rootkit Footprints with a Practical Memory Analysis System
+
+   This paper presents a fast and robust forensic analysis technique that can
+   analyze memory snapshots to find out rootkits.
+
+   https://www.usenix.org/conference/usenixsecurity12/technical-sessions/presentation/cui
+
+** Capsicum: practical capabilities for UNIX
+
+   https://www.usenix.org/legacy/events/sec10/tech/full_papers/Watson.pdf
+** Q: Exploit Hardening Made Easy
+
+   https://www.usenix.org/legacy/events/sec11/tech/full_papers/Schwartz.pdf
